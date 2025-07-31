@@ -13,7 +13,7 @@ it is really easy to add api keys to your apipie instance first define the api k
     "keys":{
         "api_key_identifier":"you_api_key_here"
     },
-...
+
 ```
 
 it is really easy to add them to your url or whatever else
