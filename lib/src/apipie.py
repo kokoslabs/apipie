@@ -20,20 +20,26 @@ class verification:
                 return username, data
         return None, None
 
-def main(config_path: str):
+def main(config_path: str, is_string: bool = False):
     print(config_path)
     def replace_keys(_str, _keys):
         for k, v in _keys.items():
-            replaced=_str.replace(f'[{k}]',v)
+            replaced = _str.replace(f'[{k}]', v)
             print(f"Replaced [{k}] with {v} in config_str")
         return replaced
     app = Sanic("API_Proxy")
     bp = Blueprint("proxy_routes")
-    
-    with open(config_path) as f:
-        config = f.read()
-    
-    foo=json.loads(config)
+
+    if is_string:
+        config = config_path
+    else:
+        path = config_path.strip('\'"')  # Remove single or double quotes
+        with open(path) as f:
+            config = f.read()
+            
+    print(config)
+
+    foo = json.loads(config)
     keys = foo["keys"]
     replaced = replace_keys(config, keys)
     config = json.loads(replaced)
@@ -105,4 +111,8 @@ def main(config_path: str):
     app.run(host="127.0.0.1", port=8000, debug=True, single_process=True)
 
 if __name__ == "__main__":
-    main(config_path=sys.argv[1] if len(sys.argv) > 1 else 'api_config.json')
+    main(
+        config_path=sys.argv[1] if len(sys.argv) > 1 else 'api_config.json',
+        is_string=(sys.argv[2].lower() == 'true') if len(sys.argv) > 2 else False
+    )
+

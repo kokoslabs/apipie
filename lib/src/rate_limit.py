@@ -10,7 +10,7 @@ def rate_limit(limit: int, window: int, scope: str = "ip"):
     def decorator(handler):
         async def wrapped(request, *args, **kwargs):
             now = time()
-            path = request.path
+            path = request.path  
             if scope == "ip":
                 ip = request.ip
                 _rate_cache.setdefault(path, {}).setdefault(ip, [])
