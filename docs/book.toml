@@ -1,0 +1,11 @@
+[book]
+title = "apipie guide"
+author = ["Your Name"]
+description = "A description of your book"
+
+[build]
+# This will output to `docs/book`, which matches your GitHub Actions path
+build-dir = "book"
+
+[output.html]
+default-theme = "dark"
