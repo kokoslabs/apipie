@@ -44,10 +44,10 @@ rate limits have two arguments, first is how many requests, second is the period
 
 ```json
 {
-"rate_limit": {
-     "limit": 3, 
-     "window": 30 
-     }
+    "rate_limit": {
+         "limit": 3, 
+        "window": 30 
+    }
 }
 ```
 
