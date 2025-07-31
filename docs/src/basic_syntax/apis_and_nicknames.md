@@ -23,7 +23,7 @@ now that that is defined, you can run the code, but nothing will happen, that is
     "routes":{
         "get":"get_api"
     },
-...
+
 ```
 
 full code here

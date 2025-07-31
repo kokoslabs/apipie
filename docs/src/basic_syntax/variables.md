@@ -11,7 +11,7 @@ pre defined variables is a variable that is set when the code is executed and is
     "open-vars":{
         "city": "toronto"
     },
-...
+
 ```
 
 variables are easy to use time savers
@@ -61,7 +61,7 @@ they are super easy, just put the variable into the routes path
     "routes":{
         "city/<city>":"some_nickname"
     },
-...
+
 ```
 
 and that is it, the syntax on everything else is the same
