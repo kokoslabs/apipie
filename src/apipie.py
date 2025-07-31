@@ -20,7 +20,8 @@ class verification:
                 return username, data
         return None, None
 
-def main():
+def main(config_path: str):
+    print(config_path)
     def replace_keys(_str, _keys):
         for k, v in _keys.items():
             replaced=_str.replace(f'[{k}]',v)
@@ -29,7 +30,7 @@ def main():
     app = Sanic("API_Proxy")
     bp = Blueprint("proxy_routes")
     
-    with open("api_config.json") as f:
+    with open(config_path) as f:
         config = f.read()
     
     foo=json.loads(config)
@@ -104,4 +105,4 @@ def main():
     app.run(host="127.0.0.1", port=8000, debug=True, single_process=True)
 
 if __name__ == "__main__":
-    main()
+    main(config_path=sys.argv[1] if len(sys.argv) > 1 else 'api_config.json')

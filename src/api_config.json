@@ -23,7 +23,7 @@
 
   "routes": {
     "some/api/path": "some_api_nickname",
-    "some/api/path/with/<variable>": "some_api_nickname_with_variable"
+    "some/<variable>": "some_api_nickname_with_variable"
   },
 
   "apis": {
