@@ -1,0 +1,52 @@
+{
+  "users": {
+    "user1": {
+      "api_key_hash": "some_api_key_hash_here",
+      "allowed_apis": ["httpbin", "github"],
+      "rate_limit": { "limit": 5, "window": 60 }
+    },
+    "user2": {
+      "api_key_hash": "some_other_api_key_hash_here",
+      "allowed_apis": ["weather", "hia"],
+      "rate_limit": { "limit": 3, "window": 30 }
+    }
+  },
+
+  "open-vars": {
+    "variable_name": "variable_value"
+  },
+
+  "keys": {
+    "api_key_here": "your_api_key_here",
+    "usrnm": "octocat"
+  },
+
+  "routes": {
+    "some/api/path": "some_api_nickname",
+    "some/api/path/with/<variable>": "some_api_nickname_with_variable"
+  },
+
+  "apis": {
+    "some_api_nickname": {
+      "cors": "True",
+      "method": "POST",
+      "url": "https://httpbin.org/post",
+      "bearer_token": "[api_key_here]",
+      "rate_limit": { "limit": 10, "window": 60 },
+      "require_api_key": true,
+      "json": {
+        "message": "Hello from <usrnm>"
+      },
+      "headers": {
+        "X-Custom": "Header for <usrnm>"
+      }
+    },
+    "some_api_nickname_with_variable": {
+      "cors": "False",
+      "method": "GET",
+      "url": "https://api.openweathermap.org/data/2.5/weather?q=<variable>&appid=[api_key_here]",
+      "rate_limit": { "limit": 20, "window": 60 },
+      "require_api_key": false 
+    }
+  }
+}
