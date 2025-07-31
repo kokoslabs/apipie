@@ -15,6 +15,8 @@ to start lets define our api nickname
     }
 }
 ```
+in that code above, the first value ("apis") tells us that is where all the api declarations are kept, the second value ("get_api") can have any value, that is the api nickname
+
 
 now that that is defined, you can run the code, but nothing will happen, that is because we need to define the url path. it is super simple, put this at the very beginning.
 
