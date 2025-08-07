@@ -1,19 +1,24 @@
 from setuptools import setup, find_packages
 
+# Load the README as long_description
+with open("README.md", "r", encoding="utf-8") as f:
+    long_description = f.read()
+
 setup(
-    name="apipie",  # MUST be unique on PyPI
-    version="0.4.51",
-    description="A simple API proxy with rate limiting and API key support for api organization.",
-    author="kokorocks",
-    packages=find_packages(),  # No 'where="src"' needed
-    install_requires=[
-        "sanic",
-        "requests"
+    name="apipie",
+    version="0.5.0",
+    author="Your Name",
+    author_email="tmpkokorocks@awsl.uk",
+    description="A short description of your package",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    url="https://github.com/kokoslabs/apipie",
+    packages=find_packages(),
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
     ],
-    entry_points={
-        "console_scripts": [
-            "apipie=apipie.main:main"  # Refers to apipie/main.py
-        ]
-    },
     python_requires=">=3.7",
 )
+
