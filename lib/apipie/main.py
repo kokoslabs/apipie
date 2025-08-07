@@ -3,11 +3,13 @@ from sanic.exceptions import Forbidden, SanicException
 from sanic.response import html
 from requests import request
 from time import time
-from rate_limit import rate_limit
-from call import call_api
+from .rate_limit import rate_limit
+from .call import call_api
 import json
 import hashlib
 import sys
+
+
 
 class verification:    
     def hash_api_key(key: str) -> str:
@@ -109,10 +111,3 @@ def main(config_path: str, is_string: bool = False):
             return response.json({"error": "Invalid API Key"}, status=401)
     
     app.run(host="127.0.0.1", port=8000, debug=True, single_process=True)
-
-if __name__ == "__main__":
-    main(
-        config_path=sys.argv[1] if len(sys.argv) > 1 else 'api_config.json',
-        is_string=(sys.argv[2].lower() == 'true') if len(sys.argv) > 2 else False
-    )
-
