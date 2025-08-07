@@ -69,7 +69,7 @@ and that is it, the syntax on everything else is the same
 ```json
 {
     "routes":{
-        "get":"get_api"
+        "city/<city>":"some_nickname"
     },
     "keys":{
         "api_key_identifier":"you_api_key_here"
