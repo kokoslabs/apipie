@@ -8,7 +8,6 @@
   - [Variables](basic_syntax/variables.md)
   - [Environment variables](basic_syntax/env.md)
   - [CORS](basic_syntax/cors.md)
-
 - [authentication](advanced/authenication/users.md)
   - [multiple users](advanced/authenication/users.md)
   - [Api keys](advanced/authenication/keys.md)  
