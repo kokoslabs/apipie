@@ -6,13 +6,14 @@
   - [APIs and Nicknames](basic_syntax/apis_and_nicknames.md)
   - [Service API Keys and Rate Limiting](basic_syntax/service_api_keys_and_rate_limiting.md)  
   - [Variables](basic_syntax/variables.md)
+  - [Environment variables](basic_syntax/env.md)
   - [CORS](basic_syntax/cors.md)
 
 - [authentication](advanced/authenication/users.md)
-  - [APIs and Nicknames](advanced/authenication/users.md)
-  - [Service API Keys and Rate Limiting](advanced/authenication/keys.md)  
-  - [Variables](advanced/authenication/allowed.md)
-  - [CORS](advanced/authenication/rate_limit_account.md)
+  - [multiple users](advanced/authenication/users.md)
+  - [Api keys](advanced/authenication/keys.md)  
+  - [Allowed apis](advanced/authenication/allowed.md)
+  - [Account rate limiting](advanced/authenication/rate_limit_account.md)
 
 - [Advanced](more/tips.md)
   - [Tips](more/tips.md)
