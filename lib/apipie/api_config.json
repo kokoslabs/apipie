@@ -23,7 +23,8 @@
 
   "routes": {
     "some/api/path": "some_api_nickname",
-    "some/<variable>": "some_api_nickname_with_variable"
+    "some/<variable>": "some_api_nickname_with_variable",
+    "another/api":"another_api"
   },
 
   "apis": {
@@ -47,6 +48,11 @@
       "url": "https://api.openweathermap.org/data/2.5/weather?q=<variable>&appid=[api_key_here]",
       "rate_limit": { "limit": 20, "window": 60 },
       "require_api_key": false 
-    }
+    },
+    "another_api":{
+      "cors": "True",
+      "method":"GET",
+      "url":"https://httpbin.org/get?{SOMETHING}",
+      "require_api_key":false}
   }
 }

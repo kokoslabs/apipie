@@ -7,6 +7,14 @@
   - [Service API Keys and Rate Limiting](basic_syntax/service_api_keys_and_rate_limiting.md)  
   - [Variables](basic_syntax/variables.md)
   - [CORS](basic_syntax/cors.md)
-- [Advanced](advanced/tips.md)
-  - [Tips](advanced/tips.md)
-  - [Troubleshooting](advanced/troubleshooting.md)
+
+- [authentication](advanced/authenication/users.md)
+  - [APIs and Nicknames](advanced/authenication/users.md)
+  - [Service API Keys and Rate Limiting](advanced/authenication/keys.md)  
+  - [Variables](advanced/authenication/allowed.md)
+  - [CORS](advanced/authenication/rate_limit_account.md)
+
+- [Advanced](more/tips.md)
+  - [Tips](more/tips.md)
+  - [Troubleshooting](more/troubleshooting.md)
+- [scripting (coming soon)](scripts/comming_soon.md)

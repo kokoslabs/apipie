@@ -1,3 +1,45 @@
+**custom api keys**
+
+custom api key
+
+now that you have users set, you can no set the api key, which at the moment is just a hash, you can generate a hash with software that supports sha256, you can have any text you want, but to be safe, just generate it, here is the code
+
+```python
+import secrets
+import hashlib
+
+def generate_api_key():
+    # Generate a secure random API key
+    key = secrets.token_hex(32)  # 64 characters, 256-bit
+    return key
+
+def hash_api_key(api_key):
+    return hashlib.sha256(api_key.encode('utf-8')).hexdigest()
+
+if __name__ == "__main__":
+    api_key = generate_api_key()
+    hashed = hash_api_key(api_key)
+
+    print("Generated API Key (save this!):")
+    print(api_key)
+    print("/nStore this hash in config:")
+    print(hashed)
+```
+
+then you put it as a value in like this 
+
+```json
+{"api_key_hash":"you_hash_here"}
+```
+full code
+```json
+{
+    "users":{
+        "user1":{"api_key_hash":"you_hash_here",},
+        "user2":{"api_key_hash":"other_hash_here",}
+    }
+```
+
 {
     "users": {
         "user1": {

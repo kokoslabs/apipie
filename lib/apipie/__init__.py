@@ -7,3 +7,4 @@ __author__ = "kokorocks"
 
 # Optionally expose your main entry point here
 from .main import main
+from .pieworker import main as pie
