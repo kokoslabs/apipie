@@ -3,14 +3,14 @@ from sanic.exceptions import Forbidden, SanicException
 from sanic.response import html
 from requests import request
 from time import time
-from rate_limit import rate_limit
-from call import call_api
-from pieworker import connect#.mainTomoduleConnector
+from .rate_limit import rate_limit
+from .call import call_api
+#from pieworker import connect #.mainTomoduleConnector
 import json
 import hashlib
 import sys, os
 
-connect = connect.mainToModuleConnector
+#connect = connect.mainToModuleConnector
 
 os.environ['SOMETHING'] = 'somevalue'
 

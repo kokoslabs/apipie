@@ -13,7 +13,6 @@
   - [Api keys](advanced/authenication/keys.md)  
   - [Allowed apis](advanced/authenication/allowed.md)
   - [Account rate limiting](advanced/authenication/rate_limit_account.md)
-
 - [Advanced](more/tips.md)
   - [Tips](more/tips.md)
   - [Troubleshooting](more/troubleshooting.md)
