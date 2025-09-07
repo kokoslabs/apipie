@@ -9,7 +9,7 @@ with open("README.md", "r", encoding="utf-8") as f:
 
 setup(
     name="apipie",
-    version="0.5.3",
+    version="0.7.4",
     author="kokolabs",
     author_email="tmpkokorocks@awsl.uk",
     description="A short description of your package",

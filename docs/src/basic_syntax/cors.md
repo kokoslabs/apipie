@@ -1,7 +1,9 @@
-you can set cors to true or false to block cors requests
+***cors***
+
+You can set cors to true or false to block cors requests.
 
 ```json
 {"cors":"false"}
 ```
 
-that is *it*
+That is *it*.

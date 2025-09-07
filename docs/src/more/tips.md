@@ -1,1 +1,1 @@
-no tips at the moment
+NO tips at the moment

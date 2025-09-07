@@ -1,10 +1,10 @@
-**custom api keys**
+**Custom API Keys**
 
-custom api key
+Custom api key
 
-now that you have users set, you can no set the api key, which at the moment is just a hash, you can generate a hash with software that supports sha256, you can have any text you want, but to be safe, just generate it, here is the code
+Now that you have users set, you can no set the api key, which at the moment is just a hash, you can generate a hash with software that supports sha256, you can have any text you want, but to be safe, just generate it, here is the code.
 
-```python
+```python,editable
 import secrets
 import hashlib
 
@@ -26,7 +26,7 @@ if __name__ == "__main__":
     print(hashed)
 ```
 
-then you put it as a value in like this 
+then you put it as a value in like this
 
 ```json
 {"api_key_hash":"you_hash_here"}

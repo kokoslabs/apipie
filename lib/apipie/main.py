@@ -1,58 +1,69 @@
 from sanic import Sanic, response, Blueprint
 from sanic.exceptions import Forbidden, SanicException
-from sanic.response import html
+from sanic.response import html, text, json
 from requests import request
 from time import time
 from .rate_limit import rate_limit
-from .call import call_api
-#from pieworker import connect #.mainTomoduleConnector
-import json
-import hashlib
-import sys, os
+from .call import call_api, substitute
+import json, hashlib, sys, os, inspect, random
 
-#connect = connect.mainToModuleConnector
+request_data = None
+debug = False
+pathvars = {}
+othervars = {}
+var = {}
 
 os.environ['SOMETHING'] = 'somevalue'
 
-def import_from_path(name, path):
-    import importlib.util, sys, os
-    if not os.path.isfile(path):
-        raise FileNotFoundError(f"File not found: {path}")
-    spec = importlib.util.spec_from_file_location(name, path)
-    if spec is None or spec.loader is None:
-        raise ImportError(f"Cannot load module from path: {path}")
-    mod = importlib.util.module_from_spec(spec)
-    sys.modules[name] = mod
-    spec.loader.exec_module(mod)
-    return mod
+proxy_data = []
+names = {}
 
-def execute(exec_code: str):
-    if exec_code.lower().startswith("file:"):
-        file_path = exec_code.split("file:")[1].strip()
-        mod = import_from_path("script_file", file_path)
-        # Only call main() if you're sure it should
-        if hasattr(mod, "main"):
-            mod.main()
+class Apipie:
+    def __init__(self, config_path: str, is_string: bool = False, proxies=None, max_retries=3, timeout=10, rotate=None):
+        global proxy_data
+        self.config_path = config_path
+        self.is_string = is_string
+        self.proxy_data = {
+            'proxies': proxies,
+            'max_retries': max_retries,
+            'timeout': timeout,
+            'rotate': rotate
+        }
+        
+    def __getitem__(self, var_name):
+        var = {**pathvars, **othervars}
+        return var.get(var_name)
+    
+    def __setitem__(self, var_name, value):
+        var = {**pathvars, **othervars}
+        var[var_name] = value
+        
+    response = response
 
+    def script(self, path):
+        def decorator(func):
+            names[path] = func
+            return func
+        return decorator
 
-    elif exec_code.lower().startswith("function:"):
-        func_info = exec_code.split("function:")[1].strip()
-        path, func = func_info.split(">")
-        path = path.strip()
-        func = func.strip()
-
-        # Load the module
-        mod = import_from_path("script_func", path)
-
-        # Run the function if it exists
-        if hasattr(mod, func):
-            getattr(mod, func)()
-        else:
-            print(f"Function `{func}` not found in {path}.")
-
-    else:
-        # Direct Python code
-        exec(exec_code)
+    def run(self, debug: bool = False, port: int = 8080, host: str = "127.0.0.1"):
+        self.debug = debug
+        self.port = port
+        self.host = host
+        try:
+            main(
+                config_path=os.path.dirname(os.path.abspath(sys.argv[0]))+'\\'+self.config_path,
+                is_string=self.is_string,
+                debug=self.debug,
+                port=self.port,
+                host=self.host
+            )
+        except FileNotFoundError:
+            print(
+                'Make sure path is correct based where and how the code is running, '
+                f'because {self.config_path} was not found at '
+                f'{os.path.dirname(os.path.abspath(sys.argv[0]))}\\{self.config_path}'
+            )
 
 class verification:    
     def hash_api_key(key: str) -> str:
@@ -61,23 +72,18 @@ class verification:
     def get_user_by_api_key(provided_key: str, users: dict) -> tuple:
         provided_key_hash = verification.hash_api_key(provided_key)
         for username, data in users.items():
+            if debug:
+                print("Checking user:", username)
+                print("Stored hash:", data.get("api_key_hash"))
             if data.get("api_key_hash") == provided_key_hash:
+                if debug: print("User verified:", username)
                 return username, data
         return None, None
 
-def main(config_path: str, is_string: bool = False):
-    print(config_path)
-    def replace_keys(_str, _keys):
-        for k, v in _keys.items():
-            replaced = _str.replace(f'[{k}]', v)
-            print(f"Replaced [{k}] with {v} in config_str")
-            
-        for k, v in os.environ.items():
-            if  k in replaced:
-                replaced = replaced.replace(f'{{{k}}}', v)
-                print(f"Replaced {{{k}}} with {v} in config_str")
-        print("Final replaced config_str:", replaced)
-        return replaced
+
+def main(config_path: str, is_string: bool = False, debug: bool = False, port: int = 8080, host: str = "127.0.0.1"):
+    global othervars
+    if debug: print('program started at: /a' + config_path)
     
     app = Sanic("API_Proxy")
     bp = Blueprint("proxy_routes")
@@ -85,15 +91,15 @@ def main(config_path: str, is_string: bool = False):
     if is_string:
         config = config_path
     else:
-        path = config_path.strip('\'"')  # Remove single or double quotes
+        path = config_path.strip('\'"')
         with open(path) as f:
             config = f.read()
             
-    print(config)
+    if debug: print(config)
 
     foo = json.loads(config)
     keys = foo["keys"]
-    replaced = replace_keys(config, keys)
+    replaced = substitute(config, keys)
     config = json.loads(replaced)
     users = config["users"]
     othervars = config.get("open-vars", {})
@@ -106,47 +112,66 @@ def main(config_path: str, is_string: bool = False):
         cors_enabled = str(api_config.get("cors", "False")).lower() == "true"
         require_api_key = api_config.get("require_api_key", True)
         rate_limit_cfg = api_config.get("rate_limit", {"limit": 5, "window": 60})
-        #script = api_config.get("script", None) #coming soon
-        #print(script, api_name, api_config)
+        script = api_config.get("script", None)
+        html_file = api_config.get("html_file", None)
+        html_data = api_config.get("html", None)
 
         async def handler(request, **path_vars):
-            # 1. Optionally check API Key authorization
+            global pathvars
+            pathvars = path_vars
+            if debug:
+                print("path var for ", path_vars)
+                print("othervars var for ", othervars)
+            request_data = request
+
+            # Check API Key
             api_key = request.headers.get("X-API-Key") or request.args.get("api_key")
             username, user_data = None, None
             if require_api_key:
                 if not api_key:
+                    if random.randint(1, 255) == 1:
+                        raise SanicException("I'm a teapot ☕", status_code=418)
                     raise Forbidden("Missing API Key")
                 username, user_data = verification.get_user_by_api_key(api_key, users)
                 if not user_data:
+                    if random.randint(1, 255) == 1:
+                        raise SanicException("I'm a teapot ☕", status_code=418)
                     raise Forbidden("Invalid API Key")
                 if api_name not in user_data.get("allowed_apis", []):
+                    if random.randint(1, 255) == 1:
+                        raise SanicException("I'm a teapot ☕", status_code=418)
                     raise Forbidden("API access denied for this key")
                 
-            output, script_vars = None
-            connection=hashlib.sha256(api_name+api_config+apis.encode('utf-8')).hexdigest()
-            connect.createConnection(connection)
-            connect.addData(connection,str(othervars)+'|'+str(path_vars))
-            
-            '''if script:
-                result = execute(script)''' # coming soon
+            if script:
+                if request_data:
+                    result = names[script](request_data)
+                else:
+                    result = names[script]()
+                if result:
+                    return result
+
+            if html_file:
+                with open(html_file, "r", encoding="utf-8") as f:
+                    return html(substitute(f.read(), {**othervars, **path_vars}))
+
+            if html_data:
+                if isinstance(html_data, str):
+                    return html(substitute(html_data, {**othervars, **path_vars}))
+                elif isinstance(html_data, dict):
+                    return html(substitute(json.dumps(html_data, indent=2), {**othervars, **path_vars}))
+                else:
+                    raise SanicException("Invalid HTML data format", status_code=500)
 
             merged_vars = {
                 **othervars,
                 **{k: v for k, v in request.args.items()},
                 **{k: v[0] if isinstance(v, list) else v for k, v in request.form.items()},
                 **path_vars
-                #**script_vars
             }
-            print("Merged vars:", merged_vars)
-            '''output = None
-            if script:
-                result = execute(script)''' #coming soon
-            #print(output)
-            result = call_api(api_config, merged_vars)
-            try:
-                resp = response.text(result.text)
-            except Exception:
-                resp = response.text(str(result))
+            if debug: print("Merged vars:", merged_vars)
+            result = call_api(api_config, merged_vars, *proxy_data)
+            if debug: print("API call result:", result, type(result))
+            resp = response.json(result.text)
 
             if cors_enabled:
                 resp.headers["Access-Control-Allow-Origin"] = "*"
@@ -154,7 +179,7 @@ def main(config_path: str, is_string: bool = False):
                 resp.headers["Access-Control-Allow-Headers"] = "*"
             return resp
 
-        # Per-API rate limiting
+        # Rate limiting
         limit = int(rate_limit_cfg.get("limit", 5))
         window = int(rate_limit_cfg.get("window", 60))
         handler = rate_limit(limit, window, scope="ip")(handler)
@@ -172,9 +197,11 @@ def main(config_path: str, is_string: bool = False):
     async def proxy(request, path):
         api_key = request.args.get("api_key") or request.headers.get("X-API-Key")
         if not api_key or not is_valid_key(api_key):
+            if random.randint(1, 255) == 1:
+                return response.json({"error": "I'm a teapot ☕"}, status=418)
             return response.json({"error": "Invalid API Key"}, status=401)
     
-    app.run(host="127.0.0.1", port=8000, debug=True, single_process=True)
+    app.run(host=host, port=port, debug=debug, single_process=True)
     
 if __name__ == "__main__":
     import sys

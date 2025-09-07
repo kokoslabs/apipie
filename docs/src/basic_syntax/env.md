@@ -1,13 +1,13 @@
-*environment variables*
+***environment variables***
 
-you can use environment variables
+You can use environment variables
 
-an example on how to set on it
+an example on how to set on it.
 ```python
 os.environ['SOMETHING'] = 'somevalue'
 ```
 
-you can set it using {ENVVARIABLENAME}
+You can set it using {ENVVARIABLENAME}
 
 like
 
@@ -15,4 +15,4 @@ like
 {"url":"https://httpbin/get?{SONETHING}"}
 ```
 
-that is it, very simple
+That is it, very simple.

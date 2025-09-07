@@ -1,4 +1,4 @@
-**allowed apis**
+**Allowed APIs**
 
 you may not always want all you apis to be open, or authenticated with all api users, you can set multiple users, multiple apis, multiple allowed apis, etc
 

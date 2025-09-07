@@ -1,9 +1,9 @@
-***apis and nicknames***
+***Apis and Nicknames***
 
 
-lets start with code that sends and receives our get/post request
+Lets start with code that sends and receives our get/post request
 
-to start lets define our api nickname
+to start lets define our api nickname.
 
 ```json
 {
@@ -15,7 +15,7 @@ to start lets define our api nickname
     }
 }
 ```
-in that code above, the first value ("apis") tells us that is where all the api declarations are kept, the second value ("get_api") can have any value, that is the api nickname, and the url is where the request is sent to
+In that code above, the first value ("apis") tells us that is where all the api declarations are kept, the second value ("get_api") can have any value, that is the api nickname, and the url is where the request is sent to
 
 
 now that that is defined, you can run the code, but nothing will happen, that is because we need to define the url path. it is super simple, put this at the very beginning.
@@ -45,7 +45,7 @@ full code here
 }
 ```
 
-go to http://localhost:8000/get, you should get a result similar to this
+Go to http://localhost:8000/get, you should get a result similar to this.
 
 ```json
 
@@ -73,7 +73,7 @@ go to http://localhost:8000/get, you should get a result similar to this
 }
 ```
 
-if you want you can change it to a post requests, and send a post request to that address if you want
+If you want you can change it to a post requests, and send a post request to that address if you want.
 ```json
 {
     "routes":{
@@ -89,7 +89,7 @@ if you want you can change it to a post requests, and send a post request to tha
 }
 ```
 
-multiple routes is just as easy, just define them with a nickname, than expose that route to apipie via "routes"
+Multiple routes is just as easy, just define them with a nickname, than expose that route to apipie via "routes".
 
 ```json
 {

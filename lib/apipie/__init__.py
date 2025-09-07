@@ -6,5 +6,4 @@ __version__ = "0.4.4"
 __author__ = "kokorocks"
 
 # Optionally expose your main entry point here
-from .main import main
-from .pieworker import main as pie
+from .main import Apipie

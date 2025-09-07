@@ -1,10 +1,10 @@
-***variables***
+***Variables***
 
-there are two kinds of variables, preset ones, and path based ones
+There are two kinds of variables, preset ones, and path based ones.
 
-***pre defined***
+***Pre defined***
 
-pre defined variables is a variable that is set when the code is executed and is often not edited
+Pre defined variables is a variable that is set when the code is executed and is often not edited.
 
 ```json
 {
@@ -14,9 +14,9 @@ pre defined variables is a variable that is set when the code is executed and is
 
 ```
 
-variables are easy to use time savers
+Variables are easy to use time savers
 
-like api keys, they can be placed almost anywhere easily, but use angle braces ( < and > ) instead of square braces ( [ and ] ), example
+like api keys, they can be placed almost anywhere easily, but use angle braces ( < and > ) instead of square braces ( [ and ] ), example.
 
 ```json
 {
@@ -53,9 +53,9 @@ easy as that
 }
 ```
 
-now lets do path based variables
+Now lets do path based variables
 
-they are super easy, just put the variable into the routes path
+they are super easy, just put the variable into the routes path.
 ```json
 {
     "routes":{
@@ -64,7 +64,7 @@ they are super easy, just put the variable into the routes path
 
 ```
 
-and that is it, the syntax on everything else is the same
+And that is it, the syntax on everything else is the same.
 
 ```json
 {
@@ -83,7 +83,7 @@ and that is it, the syntax on everything else is the same
     }
 }
 ```
-now if you go to https://localhost:8000/city/toronto you should get
+Now if you go to https://localhost:8000/city/toronto you should get
 ```json
 {
     "args": {

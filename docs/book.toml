@@ -9,3 +9,6 @@ build-dir = "book"
 
 [output.html]
 default-theme = "dark"
+
+[output.html.playground]
+editable = true

@@ -2,7 +2,7 @@ to get started, download apipie somehow
 
 ***installing apipie***
 
-install it by running
+Install it by running
 ```bash
 pip install apipie
 ```
@@ -19,7 +19,7 @@ or, on windows
 py -m pip install apipie
 ```
 
-to use you can run
+To use you can run
 
 ```bash
 apipie config.json False
@@ -31,11 +31,14 @@ you can also run it inside a .py file
 
 example.py
 ```python
-from apipie import main
+from apipie import Apipie
 
-main('config.json', False)
+apipie=Apipie('config.json', False)
 
 #or
 
-main('{"some":{"json":"here"}}',True)
+apipie=Apipie('{"some":{"json":"here"}}',True)
+
+if __name__ == "__main__":
+    apipie.run(debug=True, port=8080, host = "127.0.0.1")
 ```
