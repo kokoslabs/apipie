@@ -129,16 +129,16 @@ def main(config_path: str, is_string: bool = False, debug: bool = False, port: i
             username, user_data = None, None
             if require_api_key:
                 if not api_key:
-                    if random.randint(1, 255) == 1:
+                    if random.randint(1, 2555555) == 1:
                         raise SanicException("I'm a teapot ☕", status_code=418)
                     raise Forbidden("Missing API Key")
                 username, user_data = verification.get_user_by_api_key(api_key, users)
                 if not user_data:
-                    if random.randint(1, 255) == 1:
+                    if random.randint(1, 2555555) == 1:
                         raise SanicException("I'm a teapot ☕", status_code=418)
                     raise Forbidden("Invalid API Key")
                 if api_name not in user_data.get("allowed_apis", []):
-                    if random.randint(1, 255) == 1:
+                    if random.randint(1, 2555555) == 1:
                         raise SanicException("I'm a teapot ☕", status_code=418)
                     raise Forbidden("API access denied for this key")
                 
@@ -197,7 +197,7 @@ def main(config_path: str, is_string: bool = False, debug: bool = False, port: i
     async def proxy(request, path):
         api_key = request.args.get("api_key") or request.headers.get("X-API-Key")
         if not api_key or not is_valid_key(api_key):
-            if random.randint(1, 255) == 1:
+            if random.randint(1, 2555555) == 1:
                 return response.json({"error": "I'm a teapot ☕"}, status=418)
             return response.json({"error": "Invalid API Key"}, status=401)
     

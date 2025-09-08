@@ -1,3 +1,4 @@
+#py -m build
 #py -m pip install --upgrade build
 #py -m twine upload --repository pypi dist/*  
 
