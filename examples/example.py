@@ -1,10 +1,10 @@
 #you can also run python3 -m apipie config.json False, and same with the string
 
-from apipie import main
+from apipie import Apipie
 
-main('examples/api_config.json', False)
+apipie=Apipie('examples/api_config.json', False)
 # or
-main('''{
+apipie=Apipie('''{
     "users": {
         "user1": {
             "api_key_hash": "912f3c265c1876046e0f147413cc1189e28af1e8c1ebbad5c485b71cd8027840",
@@ -65,3 +65,6 @@ main('''{
         }
     }
 }''', True)
+
+if __name__ = "__main__":
+    apipie.run()
